@@ -39,16 +39,20 @@
             margin-bottom: 20px;
             transform: rotate(-2deg);
             transition: transform 0.3s ease;
-            animation: aparecer 1.5s ease-out;
+            opacity: 0;
+            transform: translateY(20px) rotate(-2deg);
         }
-        @keyframes aparecer {
-            from { 
+        .polaroid.visible {
+            animation: aparecerEfecto 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes aparecerEfecto {
+            0% { 
                 opacity: 0; 
-                transform: translateY(20px) rotate(-2deg); 
+                transform: translateY(30px) scale(0.9) rotate(-2deg); 
             }
-            to { 
+            100% { 
                 opacity: 1; 
-                transform: translateY(0) rotate(-2deg); 
+                transform: translateY(0) scale(1) rotate(-2deg); 
             }
         }
         .polaroid:hover { 
@@ -81,8 +85,8 @@
             margin-bottom: 20px; 
             color: #2b2b2b; 
             opacity: 0; 
-            animation: fadeIn 1s ease-in forwards; 
-            animation-delay: 6s; 
+            transform: translateY(10px);
+            transition: all 0.6s ease;
         }
         .buttons { 
             display: flex; 
@@ -91,13 +95,12 @@
             position: relative; 
             height: 50px; 
             opacity: 0; 
-            animation: fadeIn 1s ease-in forwards; 
-            animation-delay: 6.5s; 
+            transform: translateY(10px);
+            transition: all 0.6s ease;
         }
-        @keyframes fadeIn { 
-            to { 
-                opacity: 1; 
-            } 
+        .mostrar-elementos {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
         }
         .btn { 
             padding: 10px 25px; 
@@ -130,8 +133,6 @@
             font-weight: normal; 
             min-height: 50px; 
         }
-
-        /* Estilo para la foto circular de la pantalla final */
         .foto-circular {
             width: 150px;
             height: 150px;
@@ -141,7 +142,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin: 0 auto 20px auto;
             display: block;
-            animation: aparecer 1s ease-out;
+            animation: aparecerEfecto 1s ease-out;
         }
     </style>
 </head>
@@ -149,13 +150,13 @@
 
     <div class="container">
         <h1 class="titulo-carta" id="titulo-carta"></h1>
-        <div class="polaroid">
+        <div class="polaroid" id="bloque-polaroid">
             <img src="fotoBaby.jpeg" alt="Foto pareja">
             <div class="names" id="nombres-pareja"></div>
         </div>
         <p class="legend" id="texto-carta"></p>
-        <div class="question">¿Quieres ser mi novia?</div>
-        <div class="buttons">
+        <div class="question" id="pregunta">¿Quieres ser mi novia?</div>
+        <div class="buttons" id="botones">
             <button class="btn btn-yes" onclick="aceptar()">¡Sí, quiero!</button>
             <button class="btn btn-no" id="btnNo" onmouseover="moverBoton()" onclick="moverBoton()">No</button>
         </div>
@@ -181,9 +182,14 @@
         }
 
         window.onload = function() {
+            document.getElementById("bloque-polaroid").classList.add("visible");
+            
             escribirElemento("titulo-carta", tituloOriginal, 70, function() {
                 escribirElemento("nombres-pareja", nombresOriginal, 70, function() {
-                    escribirElemento("texto-carta", cartaOriginal, 40);
+                    escribirElemento("texto-carta", cartaOriginal, 40, function() {
+                        document.getElementById("pregunta").classList.add("mostrar-elementos");
+                        document.getElementById("botones").classList.add("mostrar-elementos");
+                    });
                 });
             });
         };
