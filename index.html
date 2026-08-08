@@ -158,7 +158,7 @@
         <div class="question" id="pregunta">¿Quieres ser mi novia?</div>
         <div class="buttons" id="botones">
             <button class="btn btn-yes" onclick="aceptar()">¡Sí, quiero!</button>
-            <button class="btn btn-no" id="btnNo" onmouseover="moverBoton()" onclick="moverBoton()">No</button>
+            <button class="btn btn-no" id="btnNo" onmouseover="moverBoton()" onclick="intentarNo()">No</button>
         </div>
     </div>
 
@@ -195,6 +195,7 @@
         };
 
         function aceptar() {
+            alert("¡Sabía que dirías que sí! ❤️ Te amo.");
             document.body.innerHTML = `
                 <div style="text-align: center; font-family: 'Poppins', sans-serif; padding: 90px; max-width: 550px; margin: 0 auto;">
                     <img src="FotoGraciosa.jpeg" class="foto-circular" alt="Nosotros">
@@ -212,6 +213,11 @@
             const randomX = Math.random() * 150 - 75;
             const randomY = Math.random() * 100 - 50;
             btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function intentarNo() {
+            alert("¡Opción incorrecta, intenta de nuevo! 😜");
+            moverBoton();
         }
     </script>
 </body>
